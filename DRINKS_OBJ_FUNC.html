@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DRINKS_OBJ_FUNC</title>
+  </head>
+  <body>
+    <button onclick="addDrink()">ввод информации о напитке</button><br>
+    <button onclick="getDrink()">получение информации о напитке</button><br>
+    <button onclick="deleteDrink()">удаление информации о напитке</button><br>
+    <button onclick="getAllDrinks()">перечень всех напитков</button>
+    <script>
+           "use strict";
+ // 1. 
+   function ObjStorageFunc() {
+    const storage = {};
+
+//addValue(key,value) — сохраняет указанное значение под указанным ключом; если под
+//этим ключом уже сохранено какое-то значение — оно должно быть перезаписано;
+  this.addValue = function(key, value) {
+    storage[key] = value;
+  };
+//getValue(key) — возвращает значение по указанному ключу либо undefined;
+  this.getValue = function(key) {
+    return storage[key];
+  };
+//deleteValue(key) — удаляет значение с указанным ключом, возвращает true если
+//значение было удалено и false если такого значения не было в хранилище;
+  this.deleteValue = function(key) {
+    if (key in storage) {
+      delete storage[key];
+      return true;
+    } else {
+      return false;
+    }
+  };
+//getKeys() — возвращает массив, состоящий из одних ключей.
+  this.getKeys = function() {
+    return Object.keys(storage);
+  };
+}
+
+// 2.
+   const drinkStorage = new ObjStorageFunc();
+
+// 3. 
+  function addDrink() {
+      const im = prompt("Введите название напитка:");
+      const isAlcoholic = confirm("Это алкогольный напиток?");
+      const recipe = prompt("Введите рецепт приготовления:");
+
+      drinkStorage.addValue(im, { isAlcoholic, recipe });
+    }
+
+  function getDrink() {
+      const im = prompt("Введите название напитка:");
+      const drinkInfo = drinkStorage.getValue(im);
+
+      if (drinkInfo) {
+        alert(`напиток ${im}\n алкогольный: ${drinkInfo.isAlcoholic ? 'да' : 'нет'}\n рецепт приготовления:\n ${drinkInfo.recipe}`);
+      } else {
+        alert(`Напиток ${im} не найден в хранилище.`);
+      }
+    }
+
+  function deleteDrink() {
+      const im = prompt("Введите название напитка:");
+
+      if (drinkStorage.deleteValue(im)) {
+        alert(`Информация о напитке ${im} удалена из хранилища.`);
+      } else {
+        alert(`Напиток ${im} не найден в хранилище.`);
+      }
+    }
+
+  function getAllDrinks() {
+      const allDrinks = drinkStorage.getKeys();
+      alert(`Перечень всех напитков: ${allDrinks.join(', ')}`);
+    }
+
+      </script>
+    </body>
+</html>
